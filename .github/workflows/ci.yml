@@ -31,9 +31,23 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-  makrdown-lint:
-    name: makdown-lint
+  markdown-lint:
+    name: markdown-lint
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
     - run: npx markdown-cli *.md
+
+  unittest:
+    name: unittest
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Setup Python
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.10.13
+          architecture: x64
+      - name: Execute Unit Tests
+        run: python3 -m unittest src/test_task_manager.py
