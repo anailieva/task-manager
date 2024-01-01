@@ -30,7 +30,7 @@ jobs:
           checkName: 'flake8'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  
+
   makrdown-lint:
     name: makdown-lint
     runs-on: ubuntu-latest
