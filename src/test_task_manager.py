@@ -1,8 +1,8 @@
 import unittest
 from task_manager import TaskManager
 
-class TestTaskManager(unittest.TestCase):
 
+class TestTaskManager(unittest.TestCase):
 
     def setUp(self):
         self.task_manager = TaskManager()
