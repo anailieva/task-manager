@@ -50,4 +50,4 @@ jobs:
           python-version: 3.10.13
           architecture: x64
       - name: Execute Unit Tests
-        run: python3 -m unittest src/test-task-manager.py
+        run: python3 -m unittest src/test_task_manager.py
