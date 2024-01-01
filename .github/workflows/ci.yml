@@ -35,5 +35,5 @@ jobs:
     name: makdown-lint
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-    - run: npx markdown-cli *.md
+      - uses: actions/checkout@v3
+      - run: npx markdown-cli *.md
