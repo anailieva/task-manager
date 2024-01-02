@@ -53,6 +53,7 @@ jobs:
         run: python3 -m unittest src/test_task_manager.py
 
   sonar-cloud:
+    needs: [editorconfig-checker, markdown-lint, flake8, unittest ]
     name: SonarCloud Scan
     runs-on: ubuntu-latest
     steps:
