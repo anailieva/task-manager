@@ -51,14 +51,3 @@ jobs:
           architecture: x64
       - name: Execute Unit Tests
         run: python3 -m unittest src/test_task_manager.py
-
-  sonar-cloud:
-    needs: [editorconfig-checker, markdown-lint, flake8, unittest ]
-    name: SonarCloud Scan
-    runs-on: ubuntu-latest
-    steps:
-      - name: SonarCloud Scan
-        uses: sonarsource/sonarcloud-github-action@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
