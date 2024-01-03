@@ -74,7 +74,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Snyk test
-        working-directory: ./src/
+        working-directory: ./
         run: |
           npm install -g snyk
           snyk test
