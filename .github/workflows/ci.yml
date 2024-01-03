@@ -133,7 +133,7 @@ jobs:
           tags: anailieva/python:latest
 
   trivy:
-    needs: [docker-build]
+    needs: [sql]
     name: trivy
     runs-on: ubuntu-latest
     steps:
