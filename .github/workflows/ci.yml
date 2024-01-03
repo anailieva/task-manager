@@ -69,9 +69,10 @@ jobs:
 
   snyk:
     needs: [editorconfig-checker, markdown-lint, flake8, unittest]
-    name: sonar-cloud
+    name: snyk
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v3
       - name: Snyk test
         working-directory: ./src/
         run: |
