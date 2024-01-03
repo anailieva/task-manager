@@ -148,7 +148,7 @@ jobs:
           severity: 'CRITICAL'
 
   docker-push:
-    needs: [trivy]
+    needs: [trivy, docker-build]
     name: docker-push
     runs-on: ubuntu-latest
     permissions:
