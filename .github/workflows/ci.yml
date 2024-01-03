@@ -144,3 +144,23 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+  docker-build:
+    needs: [dockerhub-login]
+    name: docker-build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Build docker image
+        run: docker build -t anailieva/python:latest .
+
+  docker-push:
+    needs: [docker-build]
+    name: docker-push
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Docker push
+        run: docker push anailieva/python:latest
