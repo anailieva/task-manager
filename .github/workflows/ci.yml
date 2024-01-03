@@ -66,3 +66,19 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           organization: anailieva
           project: anailieva_task-manager
+
+  snyk:
+    needs: [editorconfig-checker, markdown-lint, flake8, unittest]
+    name: snyk
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Snyk test
+        working-directory: ./src/
+        run: |
+          npm install -g snyk
+          pip install -r requirements.txt
+          snyk test
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
