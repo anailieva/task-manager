@@ -78,7 +78,7 @@ jobs:
         working-directory: ./src/
         run: |
           npm install -g snyk
-          pip install safety
+          pip install -r requirements.txt
           snyk test
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
