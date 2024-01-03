@@ -96,7 +96,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   sql:
-    needs: [sonar-cloud, snyk, trivy, gitleaks]
+    needs: [sonar-cloud, snyk, gitleaks]
     name: sql
     runs-on: ubuntu-latest
     services:
