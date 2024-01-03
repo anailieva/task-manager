@@ -3,20 +3,26 @@ name: CI
 on: [push]
 
 jobs:
-  editorconfig-checker:
-    name: editorconfig-checker
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v3
-    - uses: editorconfig-checker/action-editorconfig-checker@main
-    - run: editorconfig-checker
-
-  flake8:
-    name: flake8
+  checkout-code:
+    name: checkout-code
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+
+  editorconfig-checker:
+    needs: [checkout-code]
+    name: editorconfig-checker
+    runs-on: ubuntu-latest
+    steps:
+    - uses: editorconfig-checker/action-editorconfig-checker@main
+    - run: editorconfig-checker
+
+  flake8:
+    needs: [checkout-code]
+    name: flake8
+    runs-on: ubuntu-latest
+    steps:
       - name: Setup Python
         uses: actions/setup-python@v1
         with:
@@ -32,18 +38,17 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   markdown-lint:
+    needs: [checkout-code]
     name: markdown-lint
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
     - run: npx markdown-cli *.md
 
   unittest:
+    needs: [checkout-code]
     name: unittest
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
       - name: Setup Python
         uses: actions/setup-python@v1
         with:
@@ -53,12 +58,10 @@ jobs:
         run: python3 -m unittest src/test_task_manager.py
 
   sonar-cloud:
-    needs: [editorconfig-checker, markdown-lint, flake8, unittest]
+    needs: [checkout-code, editorconfig-checker, markdown-lint, flake8, unittest]
     name: sonar-cloud
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
       - name: SonarCloud Scan
         uses: sonarsource/sonarcloud-github-action@master
         env:
@@ -82,3 +85,16 @@ jobs:
           snyk test
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+
+  trivy:
+  needs: [checkout-code, editorconfig-checker, markdown-lint, flake8, unittest]
+  name: snyk
+  runs-on: ubuntu-latest
+  steps:
+    - name: Run Trivy vulnerability scanner
+      uses: aquasecurity/trivy-action@master
+      with:
+        image-ref: 'anailieva/python:latest'
+        format: 'table'
+        exit-code: '1'
+        severity: 'CRITICAL,HIGH'
