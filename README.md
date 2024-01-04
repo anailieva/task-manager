@@ -62,7 +62,7 @@ The CI workflow follows several essential steps:
 
 It ensures code conformity with defined coding style and formatting using EditorConfig settings, checks the Python codebase for adherence to PEP 8 style guide and identifies syntax or formatting issues with Flake8, with Markdown-lint it verifies the structure and formatting of Markdown files to maintain consistency in documentation. Also executes unit tests defined in src/test_task_manager.py to validate the functionality of the Task Manager application.
 
-Some security checks were added too: 
+Some security checks were added too:
 
 The pipeline performs a comprehensive code analysis to evaluate code quality, identify vulnerabilities, and provide insights into potential improvements via Sonar Cloud, scans dependencies to detect and report vulnerabilities in Python libraries used in the project with Snyk and then uses gitleaks to scan the repository for sensitive information leaks or accidental exposure of secrets in code and commit history.
 
@@ -78,4 +78,31 @@ Benefits
 - Immediate feedback from CI pipelines allows developers to rectify issues promptly, leading to faster iteration cycles.
 - CI ensures that the application is deployed consistently across different environments, promoting reliability and reproducibility.
 
-### 5. Continuous Deployment
+### 5. Continuous Delivery
+
+Continuous Delivery in this project automates the steps needed to get any changes we make to the software ready for deployment quickly and reliably. This ensures that our software is always up-to-date, well-tested, and ready for use.
+
+However, the actual deployment to Kubernetes occurs in a separate workflow that handles the deployment of the thoroughly scanned and checked Docker images.
+
+Deployment Workflow
+
+Concentrates on deploying the pre-scanned and quality-assured Docker images to the Kubernetes environment. This workflow occurs after the Continuous Delivery process to ensure a clear separation of concerns. The division separates the responsibilities clearly, ensuring a seamless transition from preparing the software to deploying it. It also ensures that only thoroughly checked and verified images are pushed into the production environment, minimizing risks.
+
+### 6. Security
+
+## SonarCloud
+
+SonarCloud performs an in-depth static analysis of the codebase, identifying potential vulnerabilities, code smells, and bugs. For instance - it flags security-sensitive code patterns such as hardcoded credentials or potential SQL injection points in our codebase. Integrated into our CI process, SonarCloud continuously monitors our code changes - upon every pull request, SonarCloud automatically reviews new code additions, ensuring that introduced code maintains security and quality standards.
+
+## Snyk
+
+Snyk specializes in scanning project dependencies for vulnerabilities. It identifies known vulnerabilities in third-party libraries. For instance, it may detect a vulnerable version of a package used in our Python dependencies. Snyk offers remediation advice for addressing detected vulnerabilities - it suggests updating a vulnerable package to a patched version or provides alternative dependency options to mitigate the security risk.
+
+## Trivy
+
+Trivy scans Docker container images for OS and application-level vulnerabilities. It detects critical vulnerabilities within the base operating system of our Docker images or flags insecure configurations within the application setup within the container. Trivy focuses on identifying high-severity vulnerabilities that pose significant risks - it identifies a critical vulnerability within a specific software library or an unpatched component, prompting immediate remediation actions.
+
+## Benefits of Security Checks
+
+- Early Threat Identification - By leveraging SonarCloud, Snyk, and Trivy, we can identify potential security threats early in the development lifecycle, allowing for timely resolution.
+- Enhanced Security Posture - These tools aid in maintaining a robust security posture by addressing vulnerabilities promptly and continuously.
