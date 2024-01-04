@@ -90,19 +90,33 @@ Concentrates on deploying the pre-scanned and quality-assured Docker images to t
 
 ### 6. Security
 
-## SonarCloud
+#### SonarCloud
 
 SonarCloud performs an in-depth static analysis of the codebase, identifying potential vulnerabilities, code smells, and bugs. For instance - it flags security-sensitive code patterns such as hardcoded credentials or potential SQL injection points in our codebase. Integrated into our CI process, SonarCloud continuously monitors our code changes - upon every pull request, SonarCloud automatically reviews new code additions, ensuring that introduced code maintains security and quality standards.
 
-## Snyk
+#### Snyk
 
 Snyk specializes in scanning project dependencies for vulnerabilities. It identifies known vulnerabilities in third-party libraries. For instance, it may detect a vulnerable version of a package used in our Python dependencies. Snyk offers remediation advice for addressing detected vulnerabilities - it suggests updating a vulnerable package to a patched version or provides alternative dependency options to mitigate the security risk.
 
-## Trivy
+#### Trivy
 
 Trivy scans Docker container images for OS and application-level vulnerabilities. It detects critical vulnerabilities within the base operating system of our Docker images or flags insecure configurations within the application setup within the container. Trivy focuses on identifying high-severity vulnerabilities that pose significant risks - it identifies a critical vulnerability within a specific software library or an unpatched component, prompting immediate remediation actions.
 
-## Benefits of Security Checks
+#### Benefits of Security Checks
 
 - Early Threat Identification - By leveraging SonarCloud, Snyk, and Trivy, we can identify potential security threats early in the development lifecycle, allowing for timely resolution.
 - Enhanced Security Posture - These tools aid in maintaining a robust security posture by addressing vulnerabilities promptly and continuously.
+
+### 7. Docker
+
+The application is containerized using Docker, ensuring consistency and reproducibility across different development environments. Docker containers encapsulate the application and its dependencies, allowing developers to work in isolated environments without interference from system-specific configurations. Within our CI pipeline, Docker is used to build our application, ensuring consistency between the development environment and the build environment. We run automated tests within Docker containers to validate the application's functionality in a controlled and reproducible environment. Docker enables versioning and tagging of container images, facilitating easy rollback or updates in case of issues or new releases. Docker images are deployed and managed within Kubernetes clusters, ensuring scalability, resilience, and efficient resource utilization. Kubernetes leverages Docker containers to orchestrate application deployment, scaling, and management across clusters of nodes.
+
+### 8. Kubernetes
+
+Kubernetes serves as a cornerstone for orchestrating and managing containerized applications. It streamlines deployment, scaling, and management of containerized workloads. Kubernetes orchestrates the deployment of Docker container images across clusters of nodes. It efficiently allocates computing resources, ensuring optimal performance and utilization across the deployment. Kubernetes facilitates horizontal scaling, allowing our application to scale by adding or removing instances based on demand. Through replication and automated failover, Kubernetes ensures high availability by distributing workloads across multiple nodes. Kubernetes abstracts services, enabling seamless communication between different parts of our application through defined service endpoints. It provides built-in load balancing capabilities to evenly distribute traffic across multiple instances of an application. Kubernetes allows for continuous deployment by automating the rollout of new versions or updates to our application.
+
+Deployment YAML
+Defines how the application should be deployed within the Kubernetes cluster. Specifies the deployment configuration, including the Docker image, number of replicas, and other deployment-related settings.
+
+Service YAML
+Defines how external services or users access the application. Specifies the service type (ClusterIP, NodePort, LoadBalancer), port configuration, and selectors to route traffic to the appropriate pods.
