@@ -2,12 +2,6 @@
 
 This Task Manager application is a simple Python-based task management system that allows users to add tasks, mark them as completed, and view all tasks. It will be used as a code base for my DevOps course project @ FMI Sofia University. The project is a complete automated software delivery process with pipelines using some of the main topics covered in the course.
 
-## Features
-
-- Add new tasks to the task list.
-- Mark tasks as completed.
-- View the list of all tasks.
-
 ## CI/CD
 
 The following topics are addressed in the project:
@@ -39,13 +33,49 @@ The Gitflow branching model was followed, which consisted of the following branc
 
 ### 3. Building pipelines
 
-GitHub Actions were employed to automate code style checks and linting processes, ensuring consistent code quality and adherence to coding standards across the project.
+The project's workflow is like a series of connected steps that work together to make sure the software is good to go before it's shared with everyone. Each step relies on the previous one, creating a smooth flow.
 
-A GitHub Actions workflow file (.github/workflows/ci.yml) was created to execute code style checks and linting. This workflow was triggered on specific events, such as pushes or pull requests.
+GitHub Actions were employed to automate code style checks, linting processes, code security checks, database migrations checks, docker containerization and kubernetes deployment, ensuring consistent code quality and adherence to coding standards across the project.
+
+Two GitHub Actions workflow files (.github/workflows/ci.yml and deployment.yml) were created to execute the prevoiusly mentioned pipeline. The first workflow is triggered on specific events, such as pushes and the deployment workflow is triggered on a successfull completion of the ci pipeline.
 
 Jobs and Steps
 The workflow consisted of the following jobs:
 
-- editorconfig-checker: a step utilizing the editorconfig-checker action to validate consistency with .editorconfig settings
-- flake8: utilization of the flake8 action for Python linting, ensuring adherence to PEP 8 coding standards
-- markdown-lint: a step using the markdown-lint action to verify adherence to markdown formatting standards in markdown files
+- editorconfig-checker
+- flake8
+- markdown-lint
+- unittest
+- sonar-cloud
+- snyk
+- gitleaks
+- sql
+- docker-build
+- trivy
+- docker-push
+
+### 4. Continuous Integration
+
+CI is a crucial aspect of the development process, enabling frequent code integration and automated testing to detect issues early in the development lifecycle. In my project, CI is employed to ensure code quality, verify changes, and maintain a consistent build process.
+
+The CI workflow follows several essential steps:
+
+It ensures code conformity with defined coding style and formatting using EditorConfig settings, checks the Python codebase for adherence to PEP 8 style guide and identifies syntax or formatting issues with Flake8, with Markdown-lint it verifies the structure and formatting of Markdown files to maintain consistency in documentation. Also executes unit tests defined in src/test_task_manager.py to validate the functionality of the Task Manager application.
+
+Some security checks were added too: 
+
+The pipeline performs a comprehensive code analysis to evaluate code quality, identify vulnerabilities, and provide insights into potential improvements via Sonar Cloud, scans dependencies to detect and report vulnerabilities in Python libraries used in the project with Snyk and then uses gitleaks to scan the repository for sensitive information leaks or accidental exposure of secrets in code and commit history.
+
+SQL Database Migration Validation - validates the SQL database migrations using Flyway, ensuring smooth database schema updates.
+
+Container Security Scan with Trivy - scans Docker images for potential security vulnerabilities before pushing to a container registry. Then pushes the Docker image to the specified Docker registry with the Docker push step.
+
+Docker Build and Push - Builds the Docker image for the Task Manager application and pushes it to the specified Docker registry.
+
+Benefits
+
+- Continuous integration ensures that changes can be integrated smoothly, minimizing conflicts and enhancing code reliability.
+- Immediate feedback from CI pipelines allows developers to rectify issues promptly, leading to faster iteration cycles.
+- CI ensures that the application is deployed consistently across different environments, promoting reliability and reproducibility.
+
+### 5. Continuous Deployment
