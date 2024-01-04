@@ -146,6 +146,9 @@ jobs:
           format: 'table'
           exit-code: '1'
           severity: 'CRITICAL'
+      - name: Trivy Remediation Suggestions
+      run: |
+        trivy image --format=json > trivy_results.json
 
   docker-push:
     needs: [trivy, docker-build]
