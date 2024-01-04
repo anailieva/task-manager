@@ -94,9 +94,26 @@ Concentrates on deploying the pre-scanned and quality-assured Docker images to t
 
 SonarCloud performs an in-depth static analysis of the codebase, identifying potential vulnerabilities, code smells, and bugs. For instance - it flags security-sensitive code patterns such as hardcoded credentials or potential SQL injection points in our codebase. Integrated into our CI process, SonarCloud continuously monitors our code changes - upon every pull request, SonarCloud automatically reviews new code additions, ensuring that introduced code maintains security and quality standards.
 
+Language Support
+It supports multiple programming languages including Java, JavaScript, TypeScript, Python, C#, C/C++, PHP, Swift, and more.
+
+SonarCloud allows you to define quality criteria for your project, and the Quality Gate ensures that your code meets these criteria before it can be merged or released.
+
+How SonarCloud Works
+
+SonarCloud analyzes your code using static code analysis techniques. It identifies and flags issues like bugs, vulnerabilities, code smells, and more. It provides comprehensive reports and dashboards displaying the detected issues, their severity, and recommendations for improvement. SonarCloud checks if your code meets predefined quality criteria. If not, it prevents the merge or release of poor-quality code.
+
+Benefits of Using SonarCloud
+
+Helps improve code quality by identifying and resolving issues early in the development cycle. Detects security vulnerabilities, providing guidance to mitigate risks. Helps in maintaining code standards, readability, and maintainability. Integrates seamlessly with CI/CD pipelines and other development tools, making it easy to incorporate code analysis into your workflows.
+
 #### Snyk
 
 Snyk specializes in scanning project dependencies for vulnerabilities. It identifies known vulnerabilities in third-party libraries. For instance, it may detect a vulnerable version of a package used in our Python dependencies. Snyk offers remediation advice for addressing detected vulnerabilities - it suggests updating a vulnerable package to a patched version or provides alternative dependency options to mitigate the security risk.
+
+How Snyk Works
+
+Snyk analyzes your project dependencies, checking against its extensive database of known vulnerabilities. It identifies vulnerabilities in dependencies and container images. Snyk provides guidance on how to remediate vulnerabilities, suggesting specific updates or patches to fix the issues. Offers continuous monitoring to stay updated on newly discovered vulnerabilities affecting your dependencies. To integrate Snyk with GitHub Actions, you can use the Snyk GitHub Action within your workflows. The action requires configuration, including Snyk authentication token, project details, and other optional parameters.
 
 #### Trivy
 
