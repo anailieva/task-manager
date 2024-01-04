@@ -17,7 +17,7 @@ class TestTaskManager(unittest.TestCase):
     def test_mark_task_completed(self):
         self.task_manager.mark_task_completed(1)
         self.assertTrue(self.task_manager.tasks[1]["completed"])
-        
+
         with self.assertRaises(IndexError):
             self.task_manager.mark_task_completed(5)
 
