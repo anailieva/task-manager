@@ -1,0 +1,26 @@
+name: Deploy to Kubernetes
+
+on:
+  workflow_run:
+    workflows: ["CI"]
+    types:
+      - completed
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Start minikube
+        uses: medyagh/setup-minikube@latest
+      - name: Build image
+        run: |
+          docker pull anailieva/python:latest
+      - name: Deploy to minikube
+        run: |
+          kubectl apply -f deployment/
+      - name: Verify deployment
+        run: |
+          kubectl get deployments
+          kubectl get pods
